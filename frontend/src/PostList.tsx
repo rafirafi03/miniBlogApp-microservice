@@ -2,20 +2,30 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import CommentCreate from "./CommentCreate";
 import CommentList from "./CommentList";
+import './style.css'
 
-const PostList = () => {
+type Comment = {
+  id: string;
+  content: string;
+};
 
-    type Post = {
-        id: string;
-        title: string;
-        content: string;
-      }
+type Post = {
+    id: string;
+    title: string;
+    content: string;
+    comments: Comment[];
+  }
+
+
+const PostList: React.FC = () => {
 
   const [posts, setPosts] = useState<{ [key: string]: Post }>({});
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/posts");
+      const res = await axios.get("http://localhost:4002/posts");
+
+      console.log(res.data)
 
       setPosts(res.data);
     } catch (error) {
@@ -33,9 +43,9 @@ const PostList = () => {
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
             <div className="p-4">
                 <h3 className="text-xl font-bold mb-2 text-start">{post.title}</h3>
-                <hr />
-                <h6>comments</h6>
-                <CommentList postId={post.id}/>
+                <hr className="mt-5" />
+                <h6 className="text-black font-bold mt-3">comments</h6>
+                <CommentList comments={post.comments}/>
                 <CommentCreate postId={post.id}/>
             </div>
         </div>
@@ -44,7 +54,7 @@ const PostList = () => {
 
   })
 
-  return <div className="d-flex flex-row flex-wrap justify-content-between">{renderedPosts}</div>;
+  return <div className="d-flex flex-row flex flex-wrap justify-content-between">{renderedPosts}</div>;
 };
 
 export default PostList;
