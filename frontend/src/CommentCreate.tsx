@@ -3,9 +3,10 @@ import axios from 'axios';
 
 type CommentCreateProps = {
     postId: string;
+    onCommentCreated: () => void;
   }
 
-const CommentCreate : React.FC<CommentCreateProps> = ({ postId }) => {
+const CommentCreate : React.FC<CommentCreateProps> = ({ postId, onCommentCreated }) => {
 
     const [content, setContent] = useState<string>('');
 
@@ -19,6 +20,7 @@ const CommentCreate : React.FC<CommentCreateProps> = ({ postId }) => {
             })
     
             setContent('')
+            onCommentCreated()
         } catch (error) {
             console.log(error)
         }
@@ -33,7 +35,7 @@ const CommentCreate : React.FC<CommentCreateProps> = ({ postId }) => {
             <div className="flex">
 
             <input type="text" id="content" value={content} onChange={e => setContent(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-l-xl h-7"/>
-            <button className="px-4 bg-blue-500 text-white rounded-r-xl h-7">Add</button>
+            <button className="px-4 bg-gray-700 hover:bg-black text-white rounded-r-xl h-7">Add</button>
             </div>
         </div>
       </form>

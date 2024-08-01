@@ -2,8 +2,11 @@ import { FormEvent, useState } from 'react';
 import axios from 'axios'
 import './style.css';
 
+type PostCreateProps = {
+  onPostCreated: ()=> void
+}
 
-const PostCreate: React.FC = () => {
+const PostCreate: React.FC<PostCreateProps> = ({ onPostCreated }) => {
 
     const [title,setTitle] = useState<string>('');
 
@@ -16,6 +19,7 @@ const PostCreate: React.FC = () => {
             })
     
             setTitle('')
+            onPostCreated()
         } catch (error) {
             console.error(error)
         }
@@ -38,7 +42,7 @@ const PostCreate: React.FC = () => {
           />
         </div>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-gray-700 hover:bg-black text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="submit"
         >
           Submit
